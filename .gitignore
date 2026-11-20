@@ -7,3 +7,10 @@ desktop.ini
 
 # Local logs
 *.log
+
+# Exclude non-website document files
+*.xlsx
+*.pptx
+*.pdf
+*.docx
+
