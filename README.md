@@ -1,5 +1,8 @@
 # ⚡ Електрик Херсон | Сайт послуг електрика
 
+> 🌐 **Сайт онлайн:** [https://sazafik.github.io/elektrik-kherson/](https://sazafik.github.io/elektrik-kherson/)  
+> 📦 **Репозиторій на GitHub:** [https://github.com/sazafik/elektrik-kherson](https://github.com/sazafik/elektrik-kherson)
+
 Сучасний, адаптивний, швидкий сайт послуг електрика у місті **Херсон**, створений за типом `elektrik.kiev.ua`, але з оновленим преміальним дизайном, актуальними ринковими цінами на 2024–2026 роки, безпечним підключенням резервного живлення (EcoFlow / генератори), інтерактивним калькулятором вартості та підтримкою оновлення через **Git / GitHub Pages**.
 
 ---
