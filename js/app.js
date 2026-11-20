@@ -453,27 +453,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Мобильное меню toggle
   if (mobileToggleBtn && navMenu) {
-    mobileToggleBtn.addEventListener('click', () => {
-      const isVisible = navMenu.style.display === 'flex';
-      navMenu.style.display = isVisible ? 'none' : 'flex';
-      if (!isVisible) {
-        navMenu.style.flexDirection = 'column';
-        navMenu.style.position = 'absolute';
-        navMenu.style.top = '100%';
-        navMenu.style.left = '0';
-        navMenu.style.right = '0';
-        navMenu.style.background = '#ffffff';
-        navMenu.style.padding = '20px';
-        navMenu.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
-      }
+    mobileToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navMenu.classList.toggle('open');
     });
 
     navMenu.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', () => {
-        if (window.innerWidth < 992) {
-          navMenu.style.display = 'none';
-        }
+        navMenu.classList.remove('open');
       });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navMenu.contains(e.target) && !mobileToggleBtn.contains(e.target)) {
+        navMenu.classList.remove('open');
+      }
     });
   }
 
