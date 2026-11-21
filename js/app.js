@@ -52,12 +52,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-contact="phone-primary-link"]').forEach(el => {
       el.href = `tel:${contacts.phonePrimaryRaw}`;
     });
-    document.querySelectorAll('[data-contact="phone-secondary-text"]').forEach(el => {
-      el.textContent = contacts.phoneSecondary;
-    });
-    document.querySelectorAll('[data-contact="phone-secondary-link"]').forEach(el => {
-      el.href = `tel:${contacts.phoneSecondaryRaw}`;
-    });
+    if (contacts.phoneSecondary) {
+      document.querySelectorAll('[data-contact="phone-secondary-text"]').forEach(el => {
+        el.textContent = contacts.phoneSecondary;
+      });
+      document.querySelectorAll('[data-contact="phone-secondary-link"]').forEach(el => {
+        el.href = `tel:${contacts.phoneSecondaryRaw}`;
+      });
+    } else {
+      document.querySelectorAll('[data-contact="phone-secondary-link"]').forEach(el => {
+        const li = el.closest('li');
+        if (li) li.remove();
+        else el.style.display = 'none';
+      });
+    }
 
     // Telegram
     document.querySelectorAll('[data-contact="telegram-link"]').forEach(el => {
@@ -341,19 +349,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!reviewsContainer || !window.SITE_CONFIG) return;
     const { reviews } = window.SITE_CONFIG;
 
-    reviewsContainer.innerHTML = reviews.map(r => `
-      <div class="review-card">
-        <div class="review-header">
+    reviewsContainer.innerHTML = reviews.map(r => {
+      const initial = (r.name || 'К').charAt(0);
+      return `
+        <div class="review-card">
           <div>
-            <div class="review-author">${r.name}</div>
-            <div class="review-district">${r.district[currentLang]}</div>
+            <div class="review-header">
+              <div class="review-author-box">
+                <div class="review-avatar">${initial}</div>
+                <div>
+                  <div class="review-author">${r.name}</div>
+                  <div class="review-district">${r.district[currentLang]}</div>
+                </div>
+              </div>
+              <div class="review-stars">★★★★★</div>
+            </div>
+            ${r.tag ? `<div class="review-service-tag">✓ ${r.tag[currentLang]}</div>` : ''}
+            <p class="review-text">${r.text[currentLang]}</p>
           </div>
-          <div class="review-stars">★★★★★</div>
+          <div class="review-date">${r.date}</div>
         </div>
-        <p class="review-text">${r.text[currentLang]}</p>
-        <div class="review-date">${r.date}</div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   // 8. Отрисовка FAQ
