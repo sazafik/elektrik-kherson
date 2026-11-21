@@ -438,18 +438,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Отправка формы обратного звонка
+  // Отправка формы обратного звонка (Модальное окно)
   if (modalForm) {
     modalForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const name = document.getElementById('modal-user-name').value;
       const phone = document.getElementById('modal-user-phone').value;
       const district = document.getElementById('modal-user-district').value;
-      const service = document.getElementById('modal-service-name').value;
+      const service = document.getElementById('modal-service-name').value || (currentLang === 'ua' ? 'Виклик майстра' : 'Вызов мастера');
+
+      const tgText = currentLang === 'ua'
+        ? `Доброго дня! Заявка на виклик майстра з сайту:\n👤 Ім'я: ${name}\n📞 Телефон: ${phone}\n📍 Район: ${district}\n🛠 Що зробити: ${service}`
+        : `Здравствуйте! Заявка на вызов мастера с сайта:\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n📍 Район: ${district}\n🛠 Что сделать: ${service}`;
+
+      // Перенаправляем прямо в Telegram-бот
+      const botUrl = `https://t.me/${(siteConfig && siteConfig.contacts ? siteConfig.contacts.telegramUsername : 'masterdomaks_bot')}?text=${encodeURIComponent(tgText)}`;
+      window.open(botUrl, '_blank');
 
       const successMsg = currentLang === 'ua'
-        ? `Дякуємо, ${name}! Ваша заявка прийнята. Майстер зателефонує вам на номер ${phone} протягом 10 хвилин. Також ви можете написати у Telegram-бот: @masterdomaks_bot`
-        : `Спасибо, ${name}! Ваша заявка принята. Мастер перезвонит вам на номер ${phone} в течение 10 минут. Также вы можете написать в Telegram-бот: @masterdomaks_bot`;
+        ? `Дякуємо, ${name}! Заявку сформовано. Зараз відкриється діалог з ботом @masterdomaks_bot, або я передзвоню вам на номер ${phone}.`
+        : `Спасибо, ${name}! Заявка сформирована. Сейчас откроется диалог с ботом @masterdomaks_bot, или я перезвоню вам на номер ${phone}.`;
 
       alert(successMsg);
       modalForm.reset();
@@ -463,11 +471,19 @@ document.addEventListener('DOMContentLoaded', () => {
     heroForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const phone = document.getElementById('hero-phone').value;
-      const service = document.getElementById('hero-service').value;
+      const service = document.getElementById('hero-service').value || (currentLang === 'ua' ? 'Виклик майстра' : 'Вызов мастера');
+
+      const tgText = currentLang === 'ua'
+        ? `Доброго дня! Заявка на виклик майстра з сайту:\n📞 Телефон: ${phone}\n🛠 Що зробити: ${service}`
+        : `Здравствуйте! Заявка на вызов мастера с сайта:\n📞 Телефон: ${phone}\n🛠 Что сделать: ${service}`;
+
+      // Перенаправляем прямо в Telegram-бот
+      const botUrl = `https://t.me/${(siteConfig && siteConfig.contacts ? siteConfig.contacts.telegramUsername : 'masterdomaks_bot')}?text=${encodeURIComponent(tgText)}`;
+      window.open(botUrl, '_blank');
 
       const successMsg = currentLang === 'ua'
-        ? `Дякуємо! Заявку прийнято. Майстер зв'яжеться з вами за номером ${phone}. Також ви можете написати у бот: @masterdomaks_bot`
-        : `Спасибо! Заявка принята. Мастер свяжется с вами по номеру ${phone}. Также вы можете написать в бот: @masterdomaks_bot`;
+        ? `Дякуємо! Заявку сформовано. Зараз відкриється діалог з ботом @masterdomaks_bot, або я зв'яжуся з вами за номером ${phone}.`
+        : `Спасибо! Заявка сформирована. Сейчас откроется диалог с ботом @masterdomaks_bot, или я свяжусь с вами по номеру ${phone}.`;
 
       alert(successMsg);
       heroForm.reset();
