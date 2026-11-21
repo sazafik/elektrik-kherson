@@ -1,5 +1,5 @@
 // ============================================================
-// ИНТЕРАКТИВНАЯ ЛОГИКА САЙТА "ЭЛЕКТРИК ХЕРСОН"
+// ИНТЕРАКТИВНАЯ ЛОГИКА САЙТА "ДОМАШНІЙ МАЙСТЕР ХЕРСОН"
 // Язык, фильтрация прайса, живой калькулятор, отправка заявок
 // ============================================================
 
@@ -314,15 +314,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Формирование сообщения для Telegram / Viber
     const greeting = currentLang === 'ua'
-      ? 'Доброго дня! Цікавить розрахунок вартості робіт у Херсоні:\n'
-      : 'Здравствуйте! Интересует расчет стоимости работ в Херсоне:\n';
+      ? 'Доброго дня! Заявка на виклик майстра (Херсон: Кольцова / Таврійський / Північний):\n'
+      : 'Здравствуйте! Заявка на вызов мастера (Херсон: Кольцова / Таврический / Северный):\n';
 
     let messageText = greeting;
     selectedList.forEach(item => {
       messageText += `• ${item.name}: ${item.qty} шт (~${item.sum} грн)\n`;
     });
 
-    const totalLabel = currentLang === 'ua' ? 'Орієнтовна сума:' : 'Ориентировочная сумма:';
+    const totalLabel = currentLang === 'ua' ? 'Орієнтовна сума (з викликом):' : 'Ориентировочная сумма (с вызовом):';
     messageText += `\n${totalLabel} ${total} грн.`;
 
     // Ссылка на Telegram
@@ -425,8 +425,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const service = document.getElementById('modal-service-name').value;
 
       const successMsg = currentLang === 'ua'
-        ? `Дякуємо, ${name}! Ваша заявка прийнята. Майстер зателефонує вам на номер ${phone} протягом 10 хвилин.`
-        : `Спасибо, ${name}! Ваша заявка принята. Мастер перезвонит вам на номер ${phone} в течение 10 минут.`;
+        ? `Дякуємо, ${name}! Ваша заявка прийнята. Майстер зателефонує вам на номер ${phone} протягом 10 хвилин. Також ви можете написати у Telegram-бот: @masterdomaks_bot`
+        : `Спасибо, ${name}! Ваша заявка принята. Мастер перезвонит вам на номер ${phone} в течение 10 минут. Также вы можете написать в Telegram-бот: @masterdomaks_bot`;
 
       alert(successMsg);
       modalForm.reset();
@@ -443,8 +443,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const service = document.getElementById('hero-service').value;
 
       const successMsg = currentLang === 'ua'
-        ? `Дякуємо! Заявку прийнято. Майстер зв'яжеться з вами за номером ${phone}.`
-        : `Спасибо! Заявка принята. Мастер свяжется с вами по номеру ${phone}.`;
+        ? `Дякуємо! Заявку прийнято. Майстер зв'яжеться з вами за номером ${phone}. Також ви можете написати у бот: @masterdomaks_bot`
+        : `Спасибо! Заявка принята. Мастер свяжется с вами по номеру ${phone}. Также вы можете написать в бот: @masterdomaks_bot`;
 
       alert(successMsg);
       heroForm.reset();
