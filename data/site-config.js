@@ -8,7 +8,7 @@
 // Актуальні ціни південного регіону (Миколаїв / Херсон)
 // ============================================================
 
-const SITE_CONFIG = {
+var SITE_CONFIG = {
   // Основные контактные данные
   contacts: {
     brandName: {
@@ -552,7 +552,10 @@ const SITE_CONFIG = {
   ]
 };
 
-// Экспорт для браузера или модулей
+// Экспорт для браузера и модулей
+if (typeof window !== 'undefined') {
+  window.SITE_CONFIG = SITE_CONFIG;
+}
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = SITE_CONFIG;
 }

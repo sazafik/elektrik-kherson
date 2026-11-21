@@ -4,6 +4,12 @@
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Конфигурация сайта (защита от разных окружений браузера)
+  const siteConfig = window.SITE_CONFIG || (typeof SITE_CONFIG !== 'undefined' ? SITE_CONFIG : null);
+  if (!siteConfig) {
+    console.error('SITE_CONFIG не знайдено! Перевірте підключення data/site-config.js');
+  }
+
   // Текущий язык: по умолчанию 'ua' (или из localStorage)
   let currentLang = localStorage.getItem('site_lang') || 'ua';
   let activeCategory = 'all';
@@ -34,16 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Калькулятор: текущие количества
   const calcState = {};
-  if (window.SITE_CONFIG && window.SITE_CONFIG.calculatorItems) {
-    window.SITE_CONFIG.calculatorItems.forEach(item => {
+  if (siteConfig && siteConfig.calculatorItems) {
+    siteConfig.calculatorItems.forEach(item => {
       calcState[item.id] = item.defaultQty || 0;
     });
   }
 
   // 1. Инициализация ссылок и контактов из конфига
   function initContacts() {
-    if (!window.SITE_CONFIG) return;
-    const { contacts } = window.SITE_CONFIG;
+    if (!siteConfig) return;
+    const { contacts } = siteConfig;
 
     // Телефоны
     document.querySelectorAll('[data-contact="phone-primary-text"]').forEach(el => {
@@ -131,8 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3. Отрисовка районов Херсона
   function renderDistricts() {
-    if (!districtsContainer || !window.SITE_CONFIG) return;
-    const { districts } = window.SITE_CONFIG;
+    if (!districtsContainer || !siteConfig) return;
+    const { districts } = siteConfig;
 
     districtsContainer.innerHTML = districts.map(d => `
       <div class="district-tag">
@@ -147,8 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. Отрисовка вкладок категорий прайса
   function renderCategoryTabs() {
-    if (!categoryTabsContainer || !window.SITE_CONFIG) return;
-    const { categories } = window.SITE_CONFIG;
+    if (!categoryTabsContainer || !siteConfig) return;
+    const { categories } = siteConfig;
 
     const allLabel = currentLang === 'ua' ? 'Всі послуги' : 'Все услуги';
     let html = `
@@ -179,8 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 5. Отрисовка таблицы прайса с фильтрацией и поиском
   function renderPriceTable() {
-    if (!priceTableBody || !window.SITE_CONFIG) return;
-    const { categories } = window.SITE_CONFIG;
+    if (!priceTableBody || !siteConfig) return;
+    const { categories } = siteConfig;
 
     let allItems = [];
     categories.forEach(cat => {
@@ -248,8 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 6. Отрисовка калькулятора
   function renderCalculator() {
-    if (!calcItemsContainer || !window.SITE_CONFIG) return;
-    const { calculatorItems } = window.SITE_CONFIG;
+    if (!calcItemsContainer || !siteConfig) return;
+    const { calculatorItems } = siteConfig;
 
     calcItemsContainer.innerHTML = calculatorItems.map(item => {
       const qty = calcState[item.id] || 0;
@@ -275,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', () => {
         const id = btn.dataset.id;
         const action = btn.dataset.action;
-        const itemConfig = window.SITE_CONFIG.calculatorItems.find(i => i.id === id);
+        const itemConfig = siteConfig.calculatorItems.find(i => i.id === id);
         if (!itemConfig) return;
 
         let currentVal = calcState[id] || 0;
@@ -299,8 +305,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Подсчет общей суммы калькулятора и генерация ссылок в мессенджеры
   function updateCalcTotal() {
-    if (!calcTotalElement || !window.SITE_CONFIG) return;
-    const { calculatorItems, contacts } = window.SITE_CONFIG;
+    if (!calcTotalElement || !siteConfig) return;
+    const { calculatorItems, contacts } = siteConfig;
 
     let total = 0;
     const selectedList = [];
@@ -346,8 +352,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 7. Отрисовка отзывов
   function renderReviews() {
-    if (!reviewsContainer || !window.SITE_CONFIG) return;
-    const { reviews } = window.SITE_CONFIG;
+    if (!reviewsContainer || !siteConfig) return;
+    const { reviews } = siteConfig;
 
     reviewsContainer.innerHTML = reviews.map(r => {
       const initial = (r.name || 'К').charAt(0);
@@ -375,8 +381,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 8. Отрисовка FAQ
   function renderFAQ() {
-    if (!faqContainer || !window.SITE_CONFIG) return;
-    const { faq } = window.SITE_CONFIG;
+    if (!faqContainer || !siteConfig) return;
+    const { faq } = siteConfig;
 
     faqContainer.innerHTML = faq.map((item, idx) => `
       <div class="faq-item" id="faq-item-${idx}">
