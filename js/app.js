@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const calcSendTgBtn = document.getElementById('calc-send-tg');
   const calcSendVbBtn = document.getElementById('calc-send-vb');
   const districtsContainer = document.getElementById('districts-container');
+  const packagesContainer = document.getElementById('packages-container');
+  const calcAddonsContainer = document.getElementById('calc-addons-container');
   const reviewsContainer = document.getElementById('reviews-container');
   const faqContainer = document.getElementById('faq-container');
 
@@ -43,6 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (siteConfig && siteConfig.calculatorItems) {
     siteConfig.calculatorItems.forEach(item => {
       calcState[item.id] = item.defaultQty || 0;
+    });
+  }
+
+  // Дополнительные платные опции (Add-ons)
+  const calcAddonsState = {};
+  if (siteConfig && siteConfig.calculatorAddons) {
+    siteConfig.calculatorAddons.forEach(a => {
+      calcAddonsState[a.id] = false;
     });
   }
 
@@ -121,9 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Перерисовка динамических блоков
     renderDistricts();
+    renderPackages();
     renderCategoryTabs();
     renderPriceTable();
     renderCalculator();
+    renderCalculatorAddons();
     renderReviews();
     renderFAQ();
     updateCalcTotal();
@@ -149,6 +161,46 @@ document.addEventListener('DOMContentLoaded', () => {
         <span>${d[currentLang]}</span>
       </div>
     `).join('');
+  }
+
+  // 3b. Отрисовка комплексных пакетов (Upsell)
+  function renderPackages() {
+    if (!packagesContainer || !siteConfig || !siteConfig.packages) return;
+    const { packages } = siteConfig;
+
+    packagesContainer.innerHTML = packages.map(pkg => {
+      const btnText = currentLang === 'ua' ? 'Замовити цей пакет' : 'Заказать этот пакет';
+      const featuresHtml = pkg.features[currentLang].map(f => `
+        <li>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>${f}</span>
+        </li>
+      `).join('');
+
+      return `
+        <div class="package-card ${pkg.popular ? 'popular' : ''}">
+          ${pkg.badge ? `<div class="package-badge">${pkg.badge[currentLang]}</div>` : ''}
+          <div class="package-header">
+            <h3 class="package-title">${pkg.title[currentLang]}</h3>
+            <p class="package-subtitle">${pkg.subtitle[currentLang]}</p>
+          </div>
+
+          <div class="package-price-box">
+            <div class="package-old-price">${pkg.oldPrice} грн</div>
+            <div class="package-price">${pkg.price} <span class="package-currency">грн</span></div>
+            <div class="package-savings">${pkg.savings[currentLang]}</div>
+          </div>
+
+          <ul class="package-features">
+            ${featuresHtml}
+          </ul>
+
+          <button type="button" class="btn btn-primary package-order-btn" onclick="openOrderModalWithService('${encodeURIComponent(pkg.title[currentLang] + ' (' + pkg.price + ' грн)')}')">
+            ${btnText}
+          </button>
+        </div>
+      `;
+    }).join('');
   }
 
   // 4. Отрисовка вкладок категорий прайса
@@ -303,10 +355,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 6b. Отрисовка полезных платных допродаж (Add-ons)
+  function renderCalculatorAddons() {
+    if (!calcAddonsContainer || !siteConfig || !siteConfig.calculatorAddons) return;
+    const { calculatorAddons } = siteConfig;
+
+    calcAddonsContainer.innerHTML = calculatorAddons.map(addon => {
+      const isChecked = !!calcAddonsState[addon.id];
+      return `
+        <label class="calc-addon-item ${isChecked ? 'active' : ''}">
+          <input type="checkbox" class="calc-addon-checkbox" data-id="${addon.id}" ${isChecked ? 'checked' : ''}>
+          <div class="calc-addon-content">
+            <span class="calc-addon-name">${addon.name[currentLang]}</span>
+            <span class="calc-addon-price">+${addon.price} грн</span>
+          </div>
+        </label>
+      `;
+    }).join('');
+
+    calcAddonsContainer.querySelectorAll('.calc-addon-checkbox').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const id = cb.dataset.id;
+        calcAddonsState[id] = cb.checked;
+        const item = cb.closest('.calc-addon-item');
+        if (item) item.classList.toggle('active', cb.checked);
+        updateCalcTotal();
+      });
+    });
+  }
+
   // Подсчет общей суммы калькулятора и генерация ссылок в мессенджеры
   function updateCalcTotal() {
     if (!calcTotalElement || !siteConfig) return;
-    const { calculatorItems, contacts } = siteConfig;
+    const { calculatorItems, calculatorAddons, contacts } = siteConfig;
 
     let total = 0;
     const selectedList = [];
@@ -323,6 +404,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     });
+
+    if (calculatorAddons) {
+      calculatorAddons.forEach(addon => {
+        if (calcAddonsState[addon.id]) {
+          total += addon.price;
+          selectedList.push({
+            name: `${addon.name[currentLang]}`,
+            qty: 1,
+            sum: addon.price
+          });
+        }
+      });
+    }
 
     calcTotalElement.textContent = `${total.toLocaleString()} грн`;
 
@@ -510,7 +604,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Быстрый выбор частых проблем (Quick Issue Chips)
+  function initIssueChips() {
+    document.querySelectorAll('.issue-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const container = chip.closest('.form-group');
+        if (!container) return;
+        const input = container.querySelector('input[type="text"]');
+        if (!input) return;
+
+        const val = chip.getAttribute(`data-issue-${currentLang}`) || chip.getAttribute('data-issue') || chip.textContent.trim();
+        input.value = val;
+        input.focus();
+
+        container.querySelectorAll('.issue-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+      });
+    });
+  }
+
   // Запуск первичной инициализации
   initContacts();
+  initIssueChips();
   setLanguage(currentLang);
 });
