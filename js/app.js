@@ -575,22 +575,22 @@ document.addEventListener('DOMContentLoaded', () => {
   if (modalForm) {
     modalForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = document.getElementById('modal-user-name').value;
-      const phone = document.getElementById('modal-user-phone').value;
-      const district = document.getElementById('modal-user-district').value;
-      const service = document.getElementById('modal-service-name').value || (currentLang === 'ua' ? 'Виклик майстра' : 'Вызов мастера');
+      const phoneInput = document.getElementById('modal-user-phone');
+      const phone = phoneInput ? phoneInput.value : '';
+      const nameInput = document.getElementById('modal-user-name');
+      const name = (nameInput && nameInput.value.trim()) || (currentLang === 'ua' ? 'Клієнт' : 'Клиент');
 
       const tgText = currentLang === 'ua'
-        ? `Доброго дня! Заявка на виклик майстра з сайту:\n👤 Ім'я: ${name}\n📞 Телефон: ${phone}\n📍 Район: ${district}\n🛠 Що зробити: ${service}`
-        : `Здравствуйте! Заявка на вызов мастера с сайта:\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n📍 Район: ${district}\n🛠 Что сделать: ${service}`;
+        ? `Доброго дня! Заявка на виклик майстра з сайту:\n📞 Телефон: ${phone}\n👤 Інфо/Ім'я: ${name}\n📍 Райони: Кольцова / Таврик / Північний\n🛠 Умови: Виклик від 400 грн, далі за фактом`
+        : `Здравствуйте! Заявка на вызов мастера с сайта:\n📞 Телефон: ${phone}\n👤 Инфо/Имя: ${name}\n📍 Районы: Кольцова / Таврик / Северный\n🛠 Условия: Вызов от 400 грн, дальше по факту`;
 
       // Перенаправляем прямо в Telegram-бот
       const botUrl = `https://t.me/${(siteConfig && siteConfig.contacts ? siteConfig.contacts.telegramUsername : 'masterdomaks_bot')}?text=${encodeURIComponent(tgText)}`;
       window.open(botUrl, '_blank');
 
       const successMsg = currentLang === 'ua'
-        ? `Дякуємо, ${name}! Заявку сформовано. Зараз відкриється діалог з ботом @masterdomaks_bot, або я передзвоню вам на номер ${phone}.`
-        : `Спасибо, ${name}! Заявка сформирована. Сейчас откроется диалог с ботом @masterdomaks_bot, или я перезвоню вам на номер ${phone}.`;
+        ? `Дякуємо! Заявку прийнято. Майстер зателефонує вам на номер ${phone} протягом 5–10 хвилин.`
+        : `Спасибо! Заявка принята. Мастер перезвонит вам на номер ${phone} в течение 5–10 минут.`;
 
       alert(successMsg);
       modalForm.reset();
