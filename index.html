@@ -78,10 +78,16 @@
         </div>
       </div>
 
-      <!-- Переключатель языка -->
-      <div class="lang-switch">
-        <button class="lang-btn active" data-lang="ua">УКР</button>
-        <button class="lang-btn" data-lang="ru">РУС</button>
+      <!-- Переключатель языка и размера шрифта -->
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button type="button" class="font-size-toggle-btn" id="font-size-toggle" title="Збільшити текст для зручного читання">
+          <span style="font-weight: 800; font-size: 0.95rem;">А+</span>
+          <span class="font-toggle-label" data-ua="Великий шрифт" data-ru="Крупный шрифт">Великий шрифт</span>
+        </button>
+        <div class="lang-switch">
+          <button class="lang-btn active" data-lang="ua">УКР</button>
+          <button class="lang-btn" data-lang="ru">РУС</button>
+        </div>
       </div>
     </div>
   </div>
@@ -179,9 +185,12 @@
         </p>
 
         <div class="hero-actions">
-          <a href="tel:+380507688986" class="btn btn-primary" data-contact="phone-primary-link">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span data-ua="Зателефонувати" data-ru="Позвонить">Зателефонувати</span>
+          <a href="tel:+380507688986" class="btn btn-primary hero-main-call-btn" data-contact="phone-primary-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <div class="hero-call-text">
+              <span class="hero-call-hint" data-ua="Натисніть для прямого дзвінка:" data-ru="Нажмите для прямого звонка:">Натисніть для прямого дзвінка:</span>
+              <span class="hero-call-number" data-contact="phone-primary-text">+38 (050) 768-89-86</span>
+            </div>
           </a>
 
           <a href="https://t.me/masterdomaks_bot" target="_blank" class="btn btn-tg" data-contact="telegram-link">
@@ -216,21 +225,21 @@
         <div class="hero-card-header">
           <h2 class="hero-card-title">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-            <span data-ua="Залиште заявку — я передзвоню" data-ru="Оставьте заявку — я перезвоню">Залиште заявку — я передзвоню</span>
+            <span data-ua="Залиште номер — я передзвоню" data-ru="Оставьте номер — я перезвоню">Залиште номер — я передзвоню</span>
           </h2>
-          <p class="hero-card-subtitle" data-ua="Або напишіть прямо в бот <a href='https://t.me/masterdomaks_bot' target='_blank' class='inline-bot-link'>@masterdomaks_bot</a>" data-ru="Или напишите прямо в бот <a href='https://t.me/masterdomaks_bot' target='_blank' class='inline-bot-link'>@masterdomaks_bot</a>">
-            Або напишіть прямо в бот <a href="https://t.me/masterdomaks_bot" target="_blank" class="inline-bot-link">@masterdomaks_bot</a>
+          <p class="hero-card-subtitle" data-ua="Майстер сам зателефонує за 5–10 хвилин і все розпитає" data-ru="Мастер сам перезвонит за 5–10 минут и всё расспросит">
+            Майстер сам зателефонує за 5–10 хвилин і все розпитає
           </p>
         </div>
 
         <form id="hero-quick-form">
           <div class="form-group">
             <label class="form-label" data-ua="Ваш номер телефону" data-ru="Ваш номер телефона">Ваш номер телефону</label>
-            <input type="tel" id="hero-phone" required placeholder="+38 (050) 768-89-86" class="form-control">
+            <input type="tel" id="hero-phone" required placeholder="+38 (050) 768-89-86" class="form-control hero-phone-input">
           </div>
           <div class="form-group">
-            <label class="form-label" data-ua="Що потрібно зробити?" data-ru="Что нужно сделать?">Що потрібно зробити?</label>
-            <input type="text" id="hero-service" placeholder="Електрика / налаштувати ПК / повісити ТВ / ремонт" data-ua="Електрика / налаштувати ПК / повісити ТВ / ремонт" data-ru="Электрика / настроить ПК / повесить ТВ / ремонт" class="form-control">
+            <label class="form-label" data-ua="Що потрібно зробити? (необов'язково)" data-ru="Что нужно сделать? (необязательно)">Що потрібно зробити? (необов'язково)</label>
+            <input type="text" id="hero-service" placeholder="Наприклад: не працює розетка, вибило світло..." data-ua="Наприклад: не працює розетка, вибило світло..." data-ru="Например: не работает розетка, выбило свет..." class="form-control">
             <div class="quick-issue-chips">
               <button type="button" class="issue-chip" data-issue-ua="Терміново: вибило автомат / іскрить щиток" data-issue-ru="Срочно: выбило автомат / искрит щиток">⚡ Світло / щиток</button>
               <button type="button" class="issue-chip" data-issue-ua="Безпечне підключення EcoFlow до щитка" data-issue-ru="Безопасное подключение EcoFlow к щитку">🔋 Підключити EcoFlow</button>
@@ -239,10 +248,10 @@
               <button type="button" class="issue-chip" data-issue-ua="Навішування телевізора на стіну / карниз" data-issue-ru="Навеска телевизора на стену / карниз">📺 ТВ / карниз</button>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
-            <span data-ua="Надіслати заявку" data-ru="Отправить заявку">Надіслати заявку</span>
+          <button type="submit" class="btn btn-primary hero-submit-btn">
+            <span data-ua="📞 ПЕРЕДЗВОНІТЬ МЕНІ" data-ru="📞 ПЕРЕЗВОНИТЕ МНЕ">📞 ПЕРЕДЗВОНІТЬ МЕНІ</span>
           </button>
-          <div class="form-note" data-ua="Мін. виклик — 400 грн (+ додаткові роботи за прайсом)" data-ru="Мин. вызов — 400 грн (+ дополнительные работы по прайсу)">Мін. виклик — 400 грн (+ додаткові роботи за прайсом)</div>
+          <div class="form-note" data-ua="Нічого писати не треба — просто вкажіть номер, я передзвоню за 5-10 хвилин!" data-ru="Ничего писать не нужно — просто укажите номер, я перезвоню за 5-10 минут!">Нічого писати не треба — просто вкажіть номер, я передзвоню за 5-10 хвилин!</div>
         </form>
       </div>
     </div>
@@ -290,6 +299,69 @@
             <div class="adv-title" data-ua="Точна діагностика" data-ru="Точная диагностика">Точна діагностика</div>
             <div class="adv-desc" data-ua="Пошук несправностей, замикань та перевірка навантаження приладами без штроблення" data-ru="Поиск неисправностей, замыканий и проверка нагрузки приборами без штробления">Пошук несправностей, замикань та перевірка навантаження приладами без штроблення</div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= БЛОК ДОВІРИ ТА ЗНИЖКИ ДЛЯ ПЕНСІОНЕРІВ ================= -->
+  <section class="section section-senior" id="senior-discount">
+    <div class="container">
+      <div class="senior-card">
+        <div class="senior-header">
+          <div class="senior-badge">
+            <span>🎖️ ЗНИЖКА 10% ДЛЯ ПЕНСІОНЕРІВ ТА ЛІТНІХ ЛЮДЕЙ</span>
+          </div>
+          <h2 class="senior-title" data-ua="Повага, чесні ціни та допомога літнім жителям Херсона" data-ru="Уважение, честные цены и помощь пожилым жителям Херсона">
+            Повага, чесні ціни та допомога літнім жителям Херсона
+          </h2>
+          <p class="senior-subtitle" data-ua="Я чудово розумію, як важливо зараз берегти кожну гривню. Для пенсіонерів діє постійна знижка 10% на всі додаткові роботи, а також БЕЗКОШТОВНИЙ огляд розеток і щитка при будь-якому виклику." data-ru="Я отлично понимаю, как важно сейчас беречь каждую гривну. Для пенсионеров действует постоянная скидка 10% на все дополнительные работы, а также БЕСПЛАТНЫЙ осмотр розеток и щитка при любом вызове.">
+            Я чудово розумію, як важливо зараз берегти кожну гривню. Для пенсіонерів діє постійна знижка 10% на всі додаткові роботи, а також БЕЗКОШТОВНИЙ огляд розеток і щитка при будь-якому виклику.
+          </p>
+        </div>
+
+        <div class="senior-guarantees-grid">
+          <div class="senior-guarantee-item">
+            <div class="guarantee-icon">🤝</div>
+            <div class="guarantee-content">
+              <div class="guarantee-title" data-ua="Ціна відома ДО початку роботи" data-ru="Цена известна ДО начала работы">Ціна відома ДО початку роботи</div>
+              <div class="guarantee-text" data-ua="Жодних прихованих накруток. Майстер спочатку дивиться, чітко називає точну вартість за прайсом, і тільки після вашої згоди приступає до роботи." data-ru="Никаких скрытых накруток. Мастер сначала смотрит, четко называет точную стоимость по прайсу, и только после вашего согласия приступает к работе.">Жодних прихованих накруток. Майстер спочатку дивиться, чітко називає точну вартість за прайсом, і тільки після вашої згоди приступає до роботи.</div>
+            </div>
+          </div>
+
+          <div class="senior-guarantee-item">
+            <div class="guarantee-icon">🔍</div>
+            <div class="guarantee-content">
+              <div class="guarantee-title" data-ua="Оплата тільки ПІСЛЯ перевірки" data-ru="Оплата только ПОСЛЕ проверки">Оплата тільки ПІСЛЯ перевірки</div>
+              <div class="guarantee-text" data-ua="Ніяких передоплат. Спочатку разом вмикаємо прилад, перевіряємо світло чи телевізор, переконуємося, що все відмінно працює, і тільки потім розрахунок." data-ru="Никаких предоплат. Сначала вместе включаем прибор, проверяем свет или телевизор, убеждаемся, что всё отлично работает, и только потом расчет.">Ніяких передоплат. Спочатку разом вмикаємо прилад, перевіряємо світло чи телевізор, переконуємося, що все відмінно працює, і тільки потім розрахунок.</div>
+            </div>
+          </div>
+
+          <div class="senior-guarantee-item">
+            <div class="guarantee-icon">🏡</div>
+            <div class="guarantee-content">
+              <div class="guarantee-title" data-ua="Свій місцевий сусід (Таврик, Кольцова)" data-ru="Свой местный сосед (Таврик, Кольцова)">Свій місцевий сусід (Таврик, Кольцова)</div>
+              <div class="guarantee-text" data-ua="Я живу поруч у ваших районах. Не найманий диспетчер і не фірма-посередник. Якщо раптом щось турбуватиме — я завжди на зв'язку і можу швидко зайти допомогти." data-ru="Я живу рядом в ваших районах. Не наемный диспетчер и не фирма-посредник. Если вдруг что-то побеспокоит — я всегда на связи и могу быстро прийти помочь.">Я живу поруч у ваших районах. Не найманий диспетчер і не фірма-посередник. Якщо раптом щось турбуватиме — я завжди на зв'язку і можу швидко зайти допомогти.</div>
+            </div>
+          </div>
+
+          <div class="senior-guarantee-item">
+            <div class="guarantee-icon">🧹</div>
+            <div class="guarantee-content">
+              <div class="guarantee-title" data-ua="Ввічливий, тверезий, прибираю сміття" data-ru="Вежливый, трезвый, убираю мусор">Ввічливий, тверезий, прибираю сміття</div>
+              <div class="guarantee-text" data-ua="Ставлюся до людей похилого віку як до власних батьків. З повагою та терпінням поясню як усім користуватися, а після роботи приберу весь бруд та обрізки проводів." data-ru="Отношусь к пожилым людям как к собственным родителям. С уважением и терпением объясню как всем пользоваться, а после работы уберу всю грязь и обрезки проводов.">Ставлюся до людей похилого віку як до власних батьків. З повагою та терпінням поясню як усім користуватися, а після роботи приберу весь бруд та обрізки проводів.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="senior-cta-box">
+          <div class="senior-cta-text" data-ua="Важко розібратися чи не знаєте як пояснити поломку? Просто зателефонуйте мені!" data-ru="Трудно разобраться или не знаете как объяснить поломку? Просто позвоните мне!">
+            Важко розібратися чи не знаєте як пояснити поломку? Просто зателефонуйте мені!
+          </div>
+          <a href="tel:+380507688986" class="btn btn-primary senior-call-btn" data-contact="phone-primary-link">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span data-ua="Зателефонувати: +38 (050) 768-89-86" data-ru="Позвонить: +38 (050) 768-89-86">Зателефонувати: +38 (050) 768-89-86</span>
+          </a>
         </div>
       </div>
     </div>

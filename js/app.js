@@ -623,8 +623,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Переключение крупного шрифта для людей старшего возраста
+  const fontSizeToggleBtn = document.getElementById('font-size-toggle');
+  function initFontSizeToggle() {
+    const savedFontSize = localStorage.getItem('site_font_size');
+    if (savedFontSize === 'large') {
+      document.body.classList.add('font-large');
+      if (fontSizeToggleBtn) fontSizeToggleBtn.classList.add('active');
+    }
+
+    if (fontSizeToggleBtn) {
+      fontSizeToggleBtn.addEventListener('click', () => {
+        const isLarge = document.body.classList.toggle('font-large');
+        fontSizeToggleBtn.classList.toggle('active', isLarge);
+        localStorage.setItem('site_font_size', isLarge ? 'large' : 'normal');
+      });
+    }
+  }
+
   // Запуск первичной инициализации
   initContacts();
   initIssueChips();
+  initFontSizeToggle();
   setLanguage(currentLang);
 });
