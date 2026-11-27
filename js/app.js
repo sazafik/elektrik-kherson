@@ -139,6 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
     renderReviews();
     renderFAQ();
     updateCalcTotal();
+    if (typeof updatePricingToggleText === 'function' && priceContainer) {
+      updatePricingToggleText(priceContainer.style.display !== 'none');
+    }
   }
 
   langButtons.forEach(btn => {
@@ -301,6 +304,42 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value;
       renderPriceTable();
+    });
+  }
+
+  // Переключение видимости детального прайс-листа (Спойлер)
+  const pricingToggleBtn = document.getElementById('pricing-toggle-btn');
+  const priceContainer = document.getElementById('price-container');
+  const pricingToggleText = document.getElementById('pricing-toggle-text');
+
+  function updatePricingToggleText(isOpen) {
+    if (!pricingToggleText) return;
+    if (isOpen) {
+      pricingToggleText.setAttribute('data-ua', '▲ Сховати детальний прайс-лист');
+      pricingToggleText.setAttribute('data-ru', '▲ Скрыть детальный прайс-лист');
+      pricingToggleText.textContent = currentLang === 'ua' ? '▲ Сховати детальний прайс-лист' : '▲ Скрыть детальный прайс-лист';
+    } else {
+      pricingToggleText.setAttribute('data-ua', '📋 Відкрити детальний прайс-лист (понад 25 послуг)');
+      pricingToggleText.setAttribute('data-ru', '📋 Открыть детальный прайс-лист (более 25 услуг)');
+      pricingToggleText.textContent = currentLang === 'ua' ? '📋 Відкрити детальний прайс-лист (понад 25 послуг)' : '📋 Открыть детальный прайс-лист (более 25 услуг)';
+    }
+  }
+
+  if (pricingToggleBtn && priceContainer) {
+    pricingToggleBtn.addEventListener('click', () => {
+      const isHidden = priceContainer.style.display === 'none';
+      priceContainer.style.display = isHidden ? 'block' : 'none';
+      pricingToggleBtn.classList.toggle('active', isHidden);
+      updatePricingToggleText(isHidden);
+    });
+
+    // При клике на ссылку в меню автоматически раскрываем прайс
+    document.querySelectorAll('a[href="#pricing"]').forEach(link => {
+      link.addEventListener('click', () => {
+        priceContainer.style.display = 'block';
+        if (pricingToggleBtn) pricingToggleBtn.classList.add('active');
+        updatePricingToggleText(true);
+      });
     });
   }
 

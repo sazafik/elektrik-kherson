@@ -2530,3 +2530,41 @@ body.font-large .form-control {
 .inline-phone-link:hover {
   color: #34d399;
 }
+
+/* ============================================================
+   COLLAPSIBLE PRICE TABLE TOGGLE
+   ============================================================ */
+.pricing-toggle-wrap {
+  text-align: center;
+  margin: 20px auto 30px;
+}
+
+.pricing-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #0f172a;
+  border: 2px solid #cbd5e1;
+  padding: 14px 28px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.pricing-toggle-btn:hover {
+  background: var(--light-bg);
+  border-color: var(--primary);
+  color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.pricing-toggle-btn.active {
+  background: var(--dark-surface);
+  color: #ffffff;
+  border-color: var(--dark-surface);
+}
