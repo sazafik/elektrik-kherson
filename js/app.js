@@ -490,6 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     reviewsContainer.innerHTML = reviews.map(r => {
       const initial = (r.name || 'К').charAt(0);
+      const verifiedLabel = currentLang === 'ua' ? '✓ Замовлення виконано' : '✓ Заказ выполнен';
       return `
         <div class="review-card">
           <div>
@@ -506,7 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ${r.tag ? `<div class="review-service-tag">✓ ${r.tag[currentLang]}</div>` : ''}
             <p class="review-text">${r.text[currentLang]}</p>
           </div>
-          <div class="review-date">${r.date}</div>
+          <div class="review-date" style="color: var(--accent); font-weight: 700;">${verifiedLabel}</div>
         </div>
       `;
     }).join('');
